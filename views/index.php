@@ -7,6 +7,8 @@ $student = new Student($db);
 $result = $student->read();
 ?>
 
+<link rel="stylesheet" href="../assets/css/style.css">
+
 <h2>Student List</h2>
 <a href="create.php">Add Student</a>
 

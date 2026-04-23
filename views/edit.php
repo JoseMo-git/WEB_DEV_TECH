@@ -14,6 +14,8 @@ $stmt->execute();
 $row = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
+<link rel="stylesheet" href="../assets/css/style.css">
+
 <h2>Edit Student</h2>
 
 <form method="POST" action="../controllers/update.php">
