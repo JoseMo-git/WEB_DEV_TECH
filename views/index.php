@@ -5,11 +5,29 @@ require '../models/Student.php';
 $db = (new Database())->connect();
 $student = new Student($db);
 $result = $student->read();
+
+$message = '';
+if (isset($_GET['msg'])) {
+    switch ($_GET['msg']) {
+        case 'updated':
+            $message = 'Student updated successfully!';
+            break;
+        case 'error':
+            $message = 'An error occurred.';
+            break;
+        case 'invalid':
+            $message = 'Invalid input data.';
+            break;
+    }
+}
 ?>
 
 <link rel="stylesheet" href="../assets/css/style.css">
 
 <h2>Student List</h2>
+<?php if ($message): ?>
+    <p><?php echo $message; ?></p>
+<?php endif; ?>
 <a href="create.php">Add Student</a>
 
 <table border="1">

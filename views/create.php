@@ -7,11 +7,15 @@ $student = new Student($db);
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    if (!empty($_POST['name']) && !empty($_POST['email']) && !empty($_POST['course'])) {
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $course = trim($_POST['course']);
 
-        $student->name = $_POST['name'];
-        $student->email = $_POST['email'];
-        $student->course = $_POST['course'];
+    if (!empty($name) && !empty($email) && !empty($course) && filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+        $student->name = $name;
+        $student->email = $email;
+        $student->course = $course;
 
         if ($student->create()) {
             header("Location: index.php");
@@ -21,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
     } else {
-        echo "All fields are required!";
+        echo "All fields are required and email must be valid!";
     }
 }
 ?>

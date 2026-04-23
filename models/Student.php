@@ -32,4 +32,24 @@ class Student {
         $stmt = $this->conn->prepare("DELETE FROM $this->table WHERE id = :id");
         return $stmt->execute([':id' => $this->id]);
     }
+
+    public function update() {
+        $query = "UPDATE $this->table 
+                  SET name = :name, email = :email, course = :course 
+                  WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+
+        return $stmt->execute([
+            ':name' => $this->name,
+            ':email' => $this->email,
+            ':course' => $this->course,
+            ':id' => $this->id
+        ]);
+    }
+
+    public function readOne() {
+        $stmt = $this->conn->prepare("SELECT * FROM $this->table WHERE id = :id");
+        $stmt->execute([':id' => $this->id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

@@ -3,15 +3,10 @@ require '../config/database.php';
 require '../models/Student.php';
 
 $db = (new Database())->connect();
+$student = new Student($db);
 
-$id = $_GET['id'];
-
-// Fetch student data
-$stmt = $db->prepare("SELECT * FROM students WHERE id = :id");
-$stmt->bindParam(':id', $id);
-$stmt->execute();
-
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+$student->id = $_GET['id'];
+$row = $student->readOne();
 ?>
 
 <link rel="stylesheet" href="../assets/css/style.css">

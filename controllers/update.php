@@ -1,22 +1,22 @@
 <?php
 require '../config/database.php';
+require '../models/Student.php';
 
 $db = (new Database())->connect();
+$student = new Student($db);
 
-$id = $_POST['id'];
-$name = $_POST['name'];
-$email = $_POST['email'];
-$course = $_POST['course'];
+$student->id = trim($_POST['id']);
+$student->name = trim($_POST['name']);
+$student->email = trim($_POST['email']);
+$student->course = trim($_POST['course']);
 
-$stmt = $db->prepare("UPDATE students 
-    SET name = :name, email = :email, course = :course 
-    WHERE id = :id");
+if (empty($student->name) || empty($student->email) || empty($student->course) || !filter_var($student->email, FILTER_VALIDATE_EMAIL)) {
+    header("Location: ../views/index.php?msg=invalid");
+    exit();
+}
 
-$stmt->bindParam(':name', $name);
-$stmt->bindParam(':email', $email);
-$stmt->bindParam(':course', $course);
-$stmt->bindParam(':id', $id);
-
-$stmt->execute();
-
-header("Location: ../views/index.php?msg=updated");
+if ($student->update()) {
+    header("Location: ../views/index.php?msg=updated");
+} else {
+    header("Location: ../views/index.php?msg=error");
+}
